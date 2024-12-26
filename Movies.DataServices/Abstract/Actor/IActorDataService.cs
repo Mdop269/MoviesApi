@@ -18,6 +18,8 @@ namespace Movies.DataServices.Abstract
 
         Task<Actor> UpdateActors(Actor actor);
 
+        Task<String> UpsertActor(Actor actor);
+
         Task<bool> DeleteActorById(int ActId);
 
 

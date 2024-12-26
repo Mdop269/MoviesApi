@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Movies.DataServices.EntityData.EntityModels;
+using Movies.WebClient.EntityData.EntityModels;
 
-namespace Movies.DataServices.EntityData;
+namespace Movies.WebClient.EntityData;
 
 public partial class FilmStudioContext : DbContext
 {

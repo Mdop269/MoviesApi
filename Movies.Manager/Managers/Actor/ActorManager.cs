@@ -30,18 +30,35 @@ namespace Movies.Manager.Managers.Actor
 
             var res = ActorDTO.MapToEntity(actorDTO);
 
-            return  await _actorDataService.AddActors(res);
+            return await _actorDataService.AddActors(res);
         }
 
         public async Task<ActorDTO> UpdateActors(ActorDTO actorDTO, int ActId)
         {
 
-            var user =  ActorDTO.MapToEntity(actorDTO);    
+            var user = ActorDTO.MapToEntity(actorDTO);
             user.ActId = ActId;
 
             var res = await _actorDataService.UpdateActors(user);
 
             return ActorDTO.MapToDTO(res);
+        }
+
+
+        public async Task<string> UpsertActor(ActorDTO actorDTO)
+        {
+            // Map DTO to entity
+            var actorEntity = ActorDTO.MapToEntity(actorDTO);
+
+            //if (actorEntity)
+            //{
+            //    // Assign ActId if provided
+            //    actorEntity.ActId = ActId;
+            //}
+
+            var res = await _actorDataService.UpsertActor(actorEntity);
+            return res;
+
         }
 
         public async Task<ActorDTO> GetActorById(int ActId)
@@ -55,6 +72,7 @@ namespace Movies.Manager.Managers.Actor
 
             return await _actorDataService.DeleteActorById(ActId);
         }
+
     }
 }
     

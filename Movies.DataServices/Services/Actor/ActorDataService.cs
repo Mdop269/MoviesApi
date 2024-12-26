@@ -32,6 +32,30 @@ namespace Movies.DataServices.Services
             return true;
         }
 
+        public async Task<String> UpsertActor(Actor actor)
+        {
+            // Check if the actor exists
+            var existingActor = await _context.Actors.FirstOrDefaultAsync(a => a.ActFname == actor.ActFname  && a.ActLname == actor.ActLname && a.ActGender == actor.ActGender);
+
+            if (existingActor != null)
+            {
+                // Update existing actor
+                existingActor.ActFname = actor.ActFname;
+                existingActor.ActLname = actor.ActLname;
+                existingActor.ActGender = actor.ActGender;
+                return "Updated";
+            }
+            else
+            {
+                // Add new actor
+                await _context.Actors.AddAsync(actor);
+            }
+
+            await _context.SaveChangesAsync();
+            return "Added";
+
+        }
+
         public async Task<Actor> GetActorById(int ActId)
         {
             var actor = await _context.Actors
@@ -43,7 +67,10 @@ namespace Movies.DataServices.Services
         public async Task<Actor> UpdateActors(Actor actor)
         {
             var existingActor = await _context.Actors.FindAsync(actor.ActId);
+            if (existingActor != null)
+            {
 
+            }
             existingActor.ActFname = actor.ActFname;
             existingActor.ActLname = actor.ActLname;
             existingActor.ActGender = actor.ActGender;
@@ -57,10 +84,10 @@ namespace Movies.DataServices.Services
         //    var existingActor = await _context.Actors.FindAsync(actor.ActId);
         //    if (existingActor != null)
         //    {
-                    // Detached The Previously Track Entity
+        // Detached The Previously Track Entity
         //        _context.Entry(existingActor).State = EntityState.Detached;
         //    }
-                // Attach the new instance and mark it as a modified
+        // Attach the new instance and mark it as a modified
         //    _context.Entry(actor).State = EntityState.Modified;
         //    await _context.SaveChangesAsync();
         //    return actor;
